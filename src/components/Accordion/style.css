@@ -1,0 +1,50 @@
+.accordion__label {
+  display: flex;
+  cursor: pointer;
+  justify-content: flex-start;
+  padding-bottom: 5px;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+}
+
+.accordion__label-text {
+  font-size: 18px;
+}
+
+.accordion__label__button {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 35px;
+  height: 35px;
+}
+
+.accordion__content {
+  display: flex;
+  margin-top: 10px;
+  text-align: left;
+  padding: 10px;
+  padding-top: 0px;
+  padding-right: 0px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.accordion__item {
+  margin-left: 25px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.accordion__content--expanded {
+  height: auto;
+}
+
+.accordion__content--contracted {
+  height: 0px;
+  overflow: hidden;
+  padding: 0px;
+}

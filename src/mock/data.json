@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Documents",
+    "type": "folder",
+    "content": [
+      {
+        "name": "code",
+        "type": "folder",
+        "content": [
+          {
+            "name": "projects",
+            "type": "folder",
+            "content": [
+              {
+                "type": "file",
+                "name": "hermes-io.js"
+              },
+              {
+                "type": "file",
+                "name": "hermes-io-cli.js"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
