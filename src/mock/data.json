@@ -4,6 +4,10 @@
     "type": "folder",
     "content": [
       {
+        "name": "secrets",
+        "type": "folder"
+      },
+      {
         "name": "code",
         "type": "folder",
         "content": [

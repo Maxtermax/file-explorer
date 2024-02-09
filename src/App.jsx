@@ -1,9 +1,8 @@
 import "./App.css";
+import { withReactive, withNotify }  from "hermes-io";
 import { HighlightContext } from "@/contexts/HighlightContext";
 import { HighlightObserver } from "@/observers/HighlightObserver";
 import TextField from "@/components/TextField/TextField";
-import withReactive from "@/components/withReactive";
-import withNotify from "@/components/withNotify";
 import Accordion, { AccordionItem } from "@/components/Accordion/Accordion";
 import Highlight from "@/components/Highlight/Highlight";
 import useHighlight from './hooks/useHighlight';
