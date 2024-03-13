@@ -1,14 +1,16 @@
-import './style.css';
+import "./style.css";
 import { useState, useEffect } from "react";
 
 const DELAY = 500;
 
 function TextField({ onChange }) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      onChange(value);
+      if (value !== null) {
+        onChange(value);
+      }
     }, DELAY);
     return () => clearTimeout(timer);
   }, [value, onChange, DELAY]);
@@ -17,9 +19,9 @@ function TextField({ onChange }) {
 
   return (
     <input
-      className='textfield'
+      className="textfield"
       type="text"
-      value={value}
+      value={value ?? ""}
       onChange={handleInputChange}
       placeholder="Search..."
     />

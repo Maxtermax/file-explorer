@@ -1,48 +1,29 @@
 import "./App.css";
-import { withReactive, withNotify }  from "hermes-io";
-import { HighlightContext } from "@/contexts/HighlightContext";
-import { HighlightObserver } from "@/observers/HighlightObserver";
 import TextField from "@/components/TextField/TextField";
 import Accordion, { AccordionItem } from "@/components/Accordion/Accordion";
 import Highlight from "@/components/Highlight/Highlight";
-import useHighlight from './hooks/useHighlight';
-import data from './mock/data.json';
-
-const context = HighlightContext;
-const observer = HighlightObserver;
-
-const ReactiveHighlight = withReactive({
-  context,
-  observer,
-  values: {
-    highlight: "",
-  },
-});
+import useHighlight from "./hooks/useHighlight";
+import data from "./mock/data.json";
 
 function mapDataToTree(data = []) {
   return data.map(({ name, content, type }, index) => {
     if (type === "file") {
       return (
         <AccordionItem key={index}>
-          <ReactiveHighlight
-            id={name}
-            render={({ highlight = "" }) => {
-              return <Highlight text={name} highlight={highlight} />;
-            }}
-          />
+          <Highlight id={name} text={name} />
         </AccordionItem>
       );
     }
     return (
-      <Accordion key={index} label={name}>
+      <Accordion key={name} label={name}>
         {typeof content !== "string" && mapDataToTree(content)}
       </Accordion>
     );
   });
 }
 
-function App({ notify }) {
-  const { onClear, onHightlight } = useHighlight(data, notify);
+function App() {
+  const { onClear, onHightlight } = useHighlight(data);
   const tree = mapDataToTree(data);
 
   const handleChange = (value) => {
@@ -59,4 +40,4 @@ function App({ notify }) {
   );
 }
 
-export default withNotify(App, { context, observer });
+export default App;

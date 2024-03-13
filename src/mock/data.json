@@ -2,26 +2,27 @@
   {
     "name": "Documents",
     "type": "folder",
+    "isExpanded": false,
     "content": [
-      {
-        "name": "secrets",
-        "type": "folder"
-      },
       {
         "name": "code",
         "type": "folder",
+        "isExpanded": false,
         "content": [
           {
             "name": "projects",
             "type": "folder",
+            "isExpanded": false,
             "content": [
               {
                 "type": "file",
-                "name": "hermes-io.js"
+                "name": "hermes-io.js",
+                "higthlight": ""
               },
               {
                 "type": "file",
-                "name": "hermes-io-cli.js"
+                "name": "hermes-io-cli.js",
+                "higthlight": ""
               }
             ]
           }
