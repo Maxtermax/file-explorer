@@ -6,13 +6,13 @@ export default function reducer(state, action) {
     [CONSTANTS.SET_FILE_STATE]: () =>
       map(
         state,
-        ({ type, name }) => type === "file" && name === action.payload.name,
+        ({ type, id }) => type === CONSTANTS.DIRECTORY_TYPE.FILE && id === action.payload.id,
         { hightlight: action.payload.value }
       ),
     [CONSTANTS.SET_FOLDER_STATE]: () =>
       map(
         state,
-        ({ type, name }) => type === "folder" && name === action.payload.name,
+        ({ type, id }) => type === CONSTANTS.DIRECTORY_TYPE.FOLDER && id === action.payload.id,
         { isExpanded: action.payload.value }
       ),
   };

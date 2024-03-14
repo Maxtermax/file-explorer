@@ -10,10 +10,10 @@ export function findKeywords({
     const item = data[i];
     if (value && item.name.includes(value)) {
       found = true;
-      onHightlightFile(item.name);
+      onHightlightFile(item.id);
       continue;
     }
-    folders.push(item.name);
+    folders.push(item.id);
     const keyword = findKeywords({
       data: item?.content ?? [],
       value,
@@ -21,7 +21,7 @@ export function findKeywords({
       onHightlightFolder,
     });
     if (keyword) {
-      onHightlightFile(item.name);
+      onHightlightFile(item.id);
     }
   }
   if (found) {

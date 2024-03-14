@@ -1,26 +1,29 @@
 import groupBy from "@/utils/groupBy";
 import find from "@/utils/find";
+import { CONSTANTS } from "@/CONSTANTS";
 
 export const getHighlights = (store) => {
   return groupBy(
     store.state,
-    ({ type, hightlight }) => type === "file" && !!hightlight,
+    ({ type, hightlight }) =>
+      type === CONSTANTS.DIRECTORY_TYPE.FILE && !!hightlight,
     []
-  ).map(({ name }) => name);
+  ).map(({ id }) => id);
 };
 
 export const getOpenFolders = (store) => {
   return groupBy(
     store.state,
-    ({ type, isExpanded }) => type === "folder" && isExpanded,
+    ({ type, isExpanded }) =>
+      type === CONSTANTS.DIRECTORY_TYPE.FOLDER && isExpanded,
     []
   );
 };
 
-export const getFolder = (store, label) => {
+export const getFolder = (store, id) => {
   const result = find(
     store.state,
-    ({ type, name }) => type === "folder" && name === label
+    (item) => item.type === CONSTANTS.DIRECTORY_TYPE.FOLDER && item.id === id
   );
   return result;
 };

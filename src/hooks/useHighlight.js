@@ -10,12 +10,13 @@ export default function useHighlight(data) {
 
   const onClear = () => {
     const folders = query(getOpenFolders);
-    folders.forEach(({ name }) =>
+    folders.forEach(({ id }) =>
       mutate({
+        targets: [id],
         type: CONSTANTS.SET_FOLDER_STATE,
         payload: {
           value: false,
-          name,
+          id,
         },
       })
     );
@@ -26,29 +27,29 @@ export default function useHighlight(data) {
       payload: { value: "" },
     });
   };
-  const handleExpandFolder = (name) => {
-    const folder = query((store) => getFolder(store, name));
+  const handleExpandFolder = (id) => {
+    const folder = query((store) => getFolder(store, id));
     if (folder.isExpanded) return;
     mutate({
-      targets: [name],
+      targets: [id],
       type: CONSTANTS.SET_FOLDER_STATE,
       payload: {
-        name,
+        id,
         value: true,
       },
     });
   };
 
   const onHightlight = (value = "") => {
-    const handleHighlightFile = (name) => {
+    const handleHighlightFile = (id) => {
       mutate({
-        targets: [name],
+        targets: [id],
         type: CONSTANTS.SET_FILE_STATE,
         payload: {
           value,
-          name,
+          id,
         },
-      }).then((result) => console.log({ result }));
+      });
     };
 
     findKeywords({

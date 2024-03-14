@@ -2,25 +2,27 @@
   {
     "name": "Documents",
     "type": "folder",
-    "isExpanded": false,
+    "id": "MzM5NDI4MTIxMjA1",
     "content": [
       {
         "name": "code",
         "type": "folder",
-        "isExpanded": false,
+        "id": "NTE3MzAxNTc4NDc5MA00",
         "content": [
           {
             "name": "projects",
             "type": "folder",
-            "isExpanded": false,
+            "id": "MTM2MTk3MzgwNzc2Nw12",
             "content": [
               {
                 "type": "file",
+                "id": "Mzg4ODgyOTc2MzQ5",
                 "name": "hermes-io.js",
                 "higthlight": ""
               },
               {
                 "type": "file",
+                "id": "NTY5NTY0Mjc5ODMw",
                 "name": "hermes-io-cli.js",
                 "higthlight": ""
               }

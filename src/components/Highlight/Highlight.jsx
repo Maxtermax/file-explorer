@@ -9,11 +9,7 @@ function Highlight({ text, id }) {
   const highlight = state.current;
   useMutations({
     events: [CONSTANTS.SET_FILE_STATE],
-    onChange: (value, resolver) => {
-      console.log({ value });
-      setInterval(() => resolver("pong"), 5000);
-      return (state.current = value)
-    },
+    onChange: (value) => (state.current = value),
     store: explorer,
     id,
   });

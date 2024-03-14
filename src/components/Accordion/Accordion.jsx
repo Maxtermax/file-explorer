@@ -1,10 +1,9 @@
 import folderOpen from "../../assets/folder-open.png";
 import folderClose from "../../assets/folder-close.png";
 import reactLogo from "../../assets/react.svg";
-import { withNotify } from "hermes-io";
+import { withNotify, useMutations } from "hermes-io";
 import { HighlightContext as context } from "@/contexts/HighlightContext";
 import { HighlightObserver as observer } from "@/observers/HighlightObserver";
-import { useMutations } from "hermes-io";
 import { useRef } from "react";
 import { CONSTANTS } from "@/CONSTANTS";
 import { explorer } from "@/store/explorer";
@@ -48,7 +47,7 @@ function AccordionContent({ children, isExpanded }) {
   );
 }
 
-function Accordion({ label, children }) {
+function Accordion({ label, id, children }) {
   const state = useRef(false);
   const isExpanded = state.current;
 
@@ -56,16 +55,16 @@ function Accordion({ label, children }) {
     events: [CONSTANTS.SET_FOLDER_STATE],
     onChange: (value) => (state.current = value),
     store: explorer,
-    id: label,
+    id,
   });
 
   const handleToggle = () => {
     explorer.mutate({
-      targets: [label],
+      targets: [id],
       type: CONSTANTS.SET_FOLDER_STATE,
       payload: {
         value: !isExpanded,
-        name: label,
+        id,
       },
     });
   };
