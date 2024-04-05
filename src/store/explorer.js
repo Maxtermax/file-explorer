@@ -6,5 +6,3 @@ const context = HighlightContext;
 const observer = HighlightObserver;
 
 export const explorer = new Store({ context, observer });
-
-window.explorer = explorer;

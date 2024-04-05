@@ -53,9 +53,7 @@ function Accordion({ label, id, children }) {
 
   useMutations({
     events: [CONSTANTS.SET_FOLDER_STATE],
-    onChange: (value) => {
-      state.current = value;
-    },
+    onChange: (value) => (state.current = value),
     store: explorer,
     id,
   });
