@@ -1,5 +1,5 @@
-import "./style.css";
 import { useState, useEffect } from "react";
+import "./style.css";
 
 const DELAY = 500;
 
@@ -8,9 +8,7 @@ function TextField({ onChange }) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (value !== null) {
-        onChange(value);
-      }
+      if (value !== null) onChange(value);
     }, DELAY);
     return () => clearTimeout(timer);
   }, [value, onChange, DELAY]);
