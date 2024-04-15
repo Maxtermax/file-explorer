@@ -1,3 +1,10 @@
+.accordion__item__anchor {
+  color: var(--black);
+  font-weight: var(--weight-300);
+  display: flex;
+  gap: 8px;
+}
+
 .accordion__label {
   display: flex;
   cursor: pointer;
@@ -10,6 +17,7 @@
 
 .accordion__label-text {
   font-size: 18px;
+  font-weight: var(--weight-400);
 }
 
 .accordion__label__button {

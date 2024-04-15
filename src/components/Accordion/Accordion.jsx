@@ -1,13 +1,22 @@
+import { useRef } from "react";
 import folderOpen from "../../assets/folder-open.png";
 import folderClose from "../../assets/folder-close.png";
 import reactLogo from "../../assets/react.svg";
+import markdownLogo from "../../assets/markdown.svg";
 import { withNotify, useMutations } from "hermes-io";
 import { HighlightContext as context } from "@/contexts/HighlightContext";
 import { HighlightObserver as observer } from "@/observers/HighlightObserver";
-import { useRef } from "react";
+import { RouterObserver } from "@/observers/RouterObserver";
+import { RouterContext } from "@/contexts/RouterContext";
+import Navigate from "@/components/Navigate/Navigate";
 import { CONSTANTS } from "@/CONSTANTS";
 import { explorer } from "@/store/explorer";
 import "./style.css";
+
+const iconHash = {
+  [CONSTANTS.ICONS.REACT]: reactLogo,
+  [CONSTANTS.ICONS.MARKDOWN]: markdownLogo,
+};
 
 function AccordionLabel({ children, onToggle, isExpanded }) {
   return (
@@ -24,14 +33,28 @@ function AccordionContainer({ children }) {
   return <div className="accordion__container">{children}</div>;
 }
 
-export function AccordionItem({ children }) {
-  return (
-    <li className="accordion__item">
-      <img src={reactLogo} width={20} />
-      <span>{children}</span>
-    </li>
-  );
-}
+export const AccordionItem = withNotify(
+  ({ children, notify, icon, name, id }) => {
+    const handleNavigate = (event) => {
+      event.preventDefault();
+      notify({ context: RouterContext, name, id });
+    };
+    return (
+      <li className="accordion__item">
+        <a
+          onClick={handleNavigate}
+          href={name}
+          className="accordion__item__anchor"
+        >
+          <img src={iconHash[icon]} width={20} />
+          <span>{children}</span>
+        </a>
+        <Navigate id={id} />
+      </li>
+    );
+  },
+  { context: RouterContext, observer: RouterObserver }
+);
 
 function AccordionContent({ children, isExpanded }) {
   return (

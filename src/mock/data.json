@@ -11,49 +11,29 @@
         "content": [
           {
             "type": "file",
+            "icon": "react",
             "id": "ERV4ODgyOTc2MzQ5",
-            "name": "react.js"
+            "name": "index.js"
           },
           {
-            "name": "projects",
+            "name": "core",
             "type": "folder",
             "id": "MTM2MTk3MzgwNzc2Nw12",
             "content": [
               {
-                "type": "file",
-                "id": "Mzg4ODgyOTc2MzQ5",
-                "name": "hermes-io.js"
-              },
-              {
-                "type": "file",
-                "id": "NTY5NTY0Mjc5ODMw",
-                "name": "hermes-io-cli.js"
-              },
-              {
                 "type": "folder",
                 "id": "BNT5NTY0Mjc5O323",
-                "name": "projects 2",
+                "name": "features",
                 "content": [
                   {
                     "type": "file",
-                    "id": "345NTY0Mjc5O323",
-                    "name": "gato"
+                    "icon": "react",
+                    "id": "Mzg4ODgyOTc2MzQ5",
+                    "name": "hermes-io.js"
                   }
                 ]
               }
             ]
-          }
-        ]
-      },
-      {
-        "name": "docs",
-        "type": "folder",
-        "id": "X33fzAxNTc4NDc5MA01",
-        "content": [
-          {
-            "name": "readme",
-            "type": "file",
-            "id": "Hef322MTk3MzgwNzc3232"
           }
         ]
       }

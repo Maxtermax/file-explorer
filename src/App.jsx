@@ -1,17 +1,21 @@
-import "./App.css";
+import { Route, Routes } from "react-router-dom";
 import TextField from "@/components/TextField/TextField";
 import Accordion, { AccordionItem } from "@/components/Accordion/Accordion";
 import Highlight from "@/components/Highlight/Highlight";
+import File from "@/components/File/File";
 import useHighlight from "./hooks/useHighlight";
 import { clearHightlights } from "@/mutations/mutations";
 import { CONSTANTS } from "@/CONSTANTS";
+import { Code, Shell, SideBar } from "@/components/Shell/Shell";
+import { mapDataToCollection } from "@/utils/mapDataToCollection";
 import data from "./mock/data.json";
+import "./App.css";
 
 function mapDataToTree(data = []) {
-  return data.map(({ name, content, type, id }) => {
+  return data.map(({ name, icon, content, type, id }) => {
     if (type === CONSTANTS.DIRECTORY_TYPE.FILE) {
       return (
-        <AccordionItem key={id}>
+        <AccordionItem key={id} icon={icon} name={name} id={id}>
           <Highlight id={id} text={name} />
         </AccordionItem>
       );
@@ -24,40 +28,44 @@ function mapDataToTree(data = []) {
   });
 }
 
-function mapDataToCollection(data, parent) {
-  for (let i = 0; i < data.length; i++) {
-    const item = data[i];
-    if (item.type === CONSTANTS.DIRECTORY_TYPE.FOLDER) {
-      item.isExpanded = false;
-      if (parent) item.parent = parent;
-      mapDataToCollection(item.content, item.id);
-    } else if (item.type === CONSTANTS.DIRECTORY_TYPE.FILE) {
-      item.hightlight = "";
-      if (parent) item.parent = parent;
+function mapDataToFiels(data = [], files = []) {
+  data.forEach(({ type, id, name, content }) => {
+    if (type === CONSTANTS.DIRECTORY_TYPE.FILE) {
+      files.push({ id, name });
+      return files;
     }
-  }
-  return data;
+    return mapDataToFiels(content, files);
+  });
+  return files;
 }
 
 const collection = mapDataToCollection(data);
+const files = mapDataToFiels(data);
 
-function App() {
+export default function App() {
   const { onClear, onHightlight } = useHighlight(collection);
   const tree = mapDataToTree(data);
 
   const handleChange = (value) => {
-    clearHightlights(); 
+    clearHightlights();
     const isEmpty = value === "";
     if (isEmpty) return onClear();
     onHightlight(value);
   };
 
   return (
-    <div className="container">
-      <TextField onChange={handleChange} />
-      {tree}
-    </div>
+    <Shell>
+      <SideBar>
+        <TextField onChange={handleChange} />
+        {tree}
+      </SideBar>
+      <Code>
+        <Routes>
+          {files.map(({ id, name }) => (
+            <Route key={id} path={name} element={<File key={name} path={name} />} />
+          ))}
+        </Routes>
+      </Code>
+    </Shell>
   );
 }
-
-export default App;

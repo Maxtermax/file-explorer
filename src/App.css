@@ -6,11 +6,10 @@
   position: absolute;
   top: 0px;
   left: 0px;
-}
-
-.container {
-  max-width: 350px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  --hightlight: #d7e4f6;
+  --transparent: transparent;
+  --black: #1d1d11;
+  --weight-400: 400;
+  --weight-300: 300;
+  --grey: silver;
 }

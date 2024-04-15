@@ -1,4 +1,7 @@
 .hightlight {
-    background: whitesmoke;
+    background-color: var(--hightlight);
     border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-weight: var(--weight-300);
 }

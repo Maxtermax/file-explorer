@@ -21,7 +21,7 @@ function TextField({ onChange }) {
       type="text"
       value={value ?? ""}
       onChange={handleInputChange}
-      placeholder="Search..."
+      placeholder="Type to search..."
     />
   );
 }
