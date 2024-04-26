@@ -9,6 +9,9 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.6.1"
+  },
   "dependencies": {
     "@styled-icons/bootstrap": "^10.47.0",
     "@styled-icons/boxicons-solid": "^10.47.0",
