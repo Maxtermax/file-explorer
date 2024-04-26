@@ -14,15 +14,12 @@
     "@styled-icons/boxicons-solid": "^10.47.0",
     "hermes-io": "^2.6.50",
     "lodash": "^4.17.21",
-    "npm": "^10.5.2",
     "prism-react-renderer": "^2.3.1",
     "react": "^18.2.0",
     "react-code-block": "^1.0.0",
-    "react-code-blocks": "^0.1.6",
     "react-dom": "^18.2.0",
     "react-router": "^6.22.3",
-    "react-router-dom": "^6.22.3",
-    "zod": "^3.22.4"
+    "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
