@@ -1,4 +1,4 @@
-import { getHighlights } from "@/queries/queries";
+import { getHighlights, getFolder } from "@/queries/queries";
 import { explorer } from "@/store/explorer";
 import { CONSTANTS } from "@/CONSTANTS";
 
@@ -7,21 +7,24 @@ export const setFileHightLight = ({ targets, id, value }) => {
     targets,
     type: CONSTANTS.SET_FILE_STATE,
     payload: {
-      value,
+      value: {
+        chunk: value,
+        target: id,
+      },
     },
-  }
-  if (id) mutations.payload.id = id;
+  };
+  if (id) mutations.payload.value.target = id;
   explorer.mutate(mutations);
 };
 
-export const closeFolder = (folders) => {
+export const closeFolders = (folders) => {
   for (const folder of folders) {
     const { id } = folder;
     explorer.mutate({
       targets: [id],
       type: CONSTANTS.SET_FOLDER_STATE,
       payload: {
-        value: false,
+        value: { isExpanded: false, target: id },
         id,
       },
     });
@@ -35,7 +38,7 @@ export const openFolder = (folder) => {
     type: CONSTANTS.SET_FOLDER_STATE,
     payload: {
       id: folder.id,
-      value: true,
+      value: { isExpanded: true, target: folder.id },
     },
   });
 };
@@ -43,12 +46,24 @@ export const openFolder = (folder) => {
 export const clearHightlights = () => {
   const highlights = getHighlights(explorer);
   for (const highlight of highlights) {
+    const folders = [];
+    let nextParent = explorer.query((store) =>
+      getFolder(store, highlight?.parent)
+    );
+    if (nextParent) folders.push(nextParent);
+    while (nextParent) {
+      const folder = explorer.query((store) =>
+        getFolder(store, nextParent.parent)
+      );
+      if (folder) folders.push(folder);
+      nextParent = folder?.parent ? folder : null;
+    }
+    closeFolders(folders);
     explorer.mutate({
-      targets: [highlight],
+      targets: [highlight.id],
       type: CONSTANTS.SET_FILE_STATE,
       payload: {
-        value: "",
-        id: highlight,
+        value: { chunk: "", target: highlight.id },
       },
     });
   }

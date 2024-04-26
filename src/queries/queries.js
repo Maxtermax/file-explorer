@@ -8,7 +8,7 @@ export const getHighlights = (store) => {
     ({ type, hightlight }) =>
       type === CONSTANTS.DIRECTORY_TYPE.FILE && !!hightlight,
     []
-  ).map(({ id }) => id);
+  );
 };
 
 export const getOpenFolders = (store) => {
@@ -27,3 +27,12 @@ export const getFolder = (store, id) => {
   );
   return result;
 };
+
+export const getFile = (store, id) => {
+  const result = find(
+    store.state,
+    (item) => item.type === CONSTANTS.DIRECTORY_TYPE.FILE && item.id === id
+  );
+  return result;
+};
+

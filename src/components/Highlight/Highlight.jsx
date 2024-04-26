@@ -5,11 +5,20 @@ import { CONSTANTS } from "@/CONSTANTS";
 import "./style.css";
 
 function Highlight({ text, id }) {
-  const state = useRef("");
-  const highlight = state.current;
+  const hightlightRef = useRef("");
+  const highlight = hightlightRef.current;
   useMutations({
+    noUpdate: true,
     events: [CONSTANTS.SET_FILE_STATE],
-    onChange: (value) => (state.current = value),
+    onChange: ({ chunk, target }, _resolver, setNoUpdate) => {
+      const shouldUpdate = id === target;
+      if (shouldUpdate) {
+        hightlightRef.current = chunk;
+        setNoUpdate(false);
+        return;
+      }
+      setNoUpdate(false);
+    },
     store: explorer,
     id,
   });

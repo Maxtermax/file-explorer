@@ -1,8 +1,20 @@
 .accordion__item__anchor {
   color: var(--black);
-  font-weight: var(--weight-300);
+  background: transparent;
+  border: none;
   display: flex;
+  font-weight: var(--weight-300);
   gap: 8px;
+  transition: all 0.35s ease-in-out;
+  outline: none;
+  height: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.accordion__item__anchor:hover {
+  background: var(--light-grey);
+  border: none;
 }
 
 .accordion__label {
@@ -28,6 +40,10 @@
   height: 35px;
 }
 
+.accordion__label__button__folder {
+  color: var(--light-blue);
+}
+
 .accordion__content {
   display: flex;
   margin-top: 10px;
@@ -40,11 +56,14 @@
 }
 
 .accordion__item {
-  margin-left: 25px;
+  background: transparent;
+  padding-left: 25px;
+  cursor: pointer;
   list-style: none;
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: all var(--transition-smooth-quick);
 }
 
 .accordion__content--expanded {

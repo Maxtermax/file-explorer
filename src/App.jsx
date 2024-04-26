@@ -1,50 +1,28 @@
-import { Route, Routes } from "react-router-dom";
+import { useMemo } from "react";
 import TextField from "@/components/TextField/TextField";
-import Accordion, { AccordionItem } from "@/components/Accordion/Accordion";
-import Highlight from "@/components/Highlight/Highlight";
+import Overlay from "@/components/Overlay/Overlay";
 import File from "@/components/File/File";
-import useHighlight from "./hooks/useHighlight";
+import Loader from "@/components/Loader/Loader";
+import useHighlight from "@/hooks/useHighlight";
+import useFetch from "@/hooks/useFetch";
 import { clearHightlights } from "@/mutations/mutations";
 import { CONSTANTS } from "@/CONSTANTS";
-import { Code, Shell, SideBar } from "@/components/Shell/Shell";
-import { mapDataToCollection } from "@/utils/mapDataToCollection";
-import data from "./mock/data.json";
+import { Code, Content, Shell, SideBar, Header } from "@/components/Shell/Shell";
+import {
+  mapTreeToData,
+  mapDataToCollection,
+  mapDataToComponentsTree,
+} from "@/utils/mappers";
 import "./App.css";
 
-function mapDataToTree(data = []) {
-  return data.map(({ name, icon, content, type, id }) => {
-    if (type === CONSTANTS.DIRECTORY_TYPE.FILE) {
-      return (
-        <AccordionItem key={id} icon={icon} name={name} id={id}>
-          <Highlight id={id} text={name} />
-        </AccordionItem>
-      );
-    }
-    return (
-      <Accordion key={id} label={name} id={id}>
-        {typeof content !== "string" && mapDataToTree(content)}
-      </Accordion>
-    );
-  });
+async function jsonParser(response) {
+  return await response.json();
 }
 
-function mapDataToFiels(data = [], files = []) {
-  data.forEach(({ type, id, name, content }) => {
-    if (type === CONSTANTS.DIRECTORY_TYPE.FILE) {
-      files.push({ id, name });
-      return files;
-    }
-    return mapDataToFiels(content, files);
-  });
-  return files;
-}
-
-const collection = mapDataToCollection(data);
-const files = mapDataToFiels(data);
-
-export default function App() {
+const Container = ({ data }) => {
+  const collection = useMemo(() => mapDataToCollection(data), [data]);
   const { onClear, onHightlight } = useHighlight(collection);
-  const tree = mapDataToTree(data);
+  const tree = mapDataToComponentsTree(data);
 
   const handleChange = (value) => {
     clearHightlights();
@@ -56,16 +34,44 @@ export default function App() {
   return (
     <Shell>
       <SideBar>
-        <TextField onChange={handleChange} />
-        {tree}
+        <Header>
+          <TextField onChange={handleChange} />
+        </Header>
+        <Content>
+          {tree}
+        </Content>
       </SideBar>
       <Code>
-        <Routes>
-          {files.map(({ id, name }) => (
-            <Route key={id} path={name} element={<File key={name} path={name} />} />
-          ))}
-        </Routes>
+        <File />
       </Code>
     </Shell>
+  );
+};
+
+export default function App() {
+  const {
+    isLoading,
+    data: result,
+    error,
+  } = useFetch({
+    url: `https://api.github.com/repos/${CONSTANTS.REPO_OWNER}/${CONSTANTS.REPO_NAME}/git/trees/master`,
+    parser: jsonParser,
+  });
+  const data = useMemo(
+    () => mapTreeToData(result?.current?.tree ?? []),
+    [result.current]
+  );
+  if (isLoading) {
+    return (
+      <Overlay>
+        <Loader />
+      </Overlay>
+    );
+  }
+  if (error.current) return <p>ERROR</p>;
+  return (
+    <>
+      <Container data={data} />
+    </>
   );
 }

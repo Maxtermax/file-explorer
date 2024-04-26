@@ -1,28 +1,35 @@
 import { useRef } from "react";
-import folderOpen from "../../assets/folder-open.png";
-import folderClose from "../../assets/folder-close.png";
-import reactLogo from "../../assets/react.svg";
-import markdownLogo from "../../assets/markdown.svg";
 import { withNotify, useMutations } from "hermes-io";
+import { FolderOpen } from "@styled-icons/boxicons-solid/FolderOpen";
+import { Folder as FolderClose } from "@styled-icons/boxicons-solid/Folder";
 import { HighlightContext as context } from "@/contexts/HighlightContext";
 import { HighlightObserver as observer } from "@/observers/HighlightObserver";
-import { RouterObserver } from "@/observers/RouterObserver";
-import { RouterContext } from "@/contexts/RouterContext";
-import Navigate from "@/components/Navigate/Navigate";
+import Loader from "@/components/Loader/Loader";
+import { FileContext } from "@/contexts/FileContext";
+import { FileObserver } from "@/observers/FileObserver";
 import { CONSTANTS } from "@/CONSTANTS";
 import { explorer } from "@/store/explorer";
+import { getFolder } from "@/queries/queries";
+import {
+  mapTreeToData,
+  mapDataToComponentsTree,
+  mapDataToCollection,
+} from "@/utils/mappers";
+import useFetch from "@/hooks/useFetch";
 import "./style.css";
-
-const iconHash = {
-  [CONSTANTS.ICONS.REACT]: reactLogo,
-  [CONSTANTS.ICONS.MARKDOWN]: markdownLogo,
-};
 
 function AccordionLabel({ children, onToggle, isExpanded }) {
   return (
     <div className="accordion__label" onClick={onToggle} role="button">
       <button className="accordion__label__button">
-        <img src={isExpanded ? folderOpen : folderClose} width={20} />
+        {isExpanded ? (
+          <FolderOpen className="accordion__label__button__folder" width={20} />
+        ) : (
+          <FolderClose
+            className="accordion__label__button__folder"
+            width={20}
+          />
+        )}
       </button>
       <span className="accordion__label-text">{children}</span>
     </div>
@@ -34,26 +41,20 @@ function AccordionContainer({ children }) {
 }
 
 export const AccordionItem = withNotify(
-  ({ children, notify, icon, name, id }) => {
-    const handleNavigate = (event) => {
-      event.preventDefault();
-      notify({ context: RouterContext, name, id });
+  ({ children, notify, url }) => {
+    const handleAnchorClick = (e) => {
+      e.preventDefault();
+      notify({ url });
     };
     return (
       <li className="accordion__item">
-        <a
-          onClick={handleNavigate}
-          href={name}
-          className="accordion__item__anchor"
-        >
-          <img src={iconHash[icon]} width={20} />
+        <button onClick={handleAnchorClick} className="accordion__item__anchor">
           <span>{children}</span>
-        </a>
-        <Navigate id={id} />
+        </button>
       </li>
     );
   },
-  { context: RouterContext, observer: RouterObserver }
+  { context: FileContext, observer: FileObserver }
 );
 
 function AccordionContent({ children, isExpanded }) {
@@ -70,25 +71,68 @@ function AccordionContent({ children, isExpanded }) {
   );
 }
 
+const parser = async (response) => await response.json();
+
+const merge = (base, candidates) => {
+  const indexes = {};
+  base.forEach((item) => (indexes[item.id] = item));
+  candidates.forEach((item) => {
+    if (!indexes[item.id]) indexes[item.id] = item;
+  });
+  return Object.values(indexes);
+};
+
 function Accordion({ label, id, children }) {
-  const state = useRef(false);
-  const isExpanded = state.current;
+  const isExpandedRef = useRef(false);
+  const content = useRef(null);
+  const isExpanded = isExpandedRef.current;
+  const { isLoading, refetch, abort } = useFetch({
+    lazy: true,
+    parser,
+  });
 
   useMutations({
+    noUpdate: true,
     events: [CONSTANTS.SET_FOLDER_STATE],
-    onChange: (value) => (state.current = value),
+    onChange: ({ isExpanded, target }, _resolver, setNoUpdate) => {
+      const hasNotUpdate = id !== target;
+      if (!hasNotUpdate) isExpandedRef.current = isExpanded;
+      setNoUpdate(hasNotUpdate);
+    },
     store: explorer,
     id,
   });
 
-  const handleToggle = () => {
+  const handleToggle = async () => {
+    const payload = {
+      value: {
+        isExpanded: !isExpanded,
+        target: id,
+      },
+      id,
+    };
+    if (payload.value) {
+      const folder = getFolder(explorer, id);
+      abort();
+      const result = await refetch.current(folder.url);
+      const newContent = merge(
+        folder.content,
+        mapTreeToData(result?.tree ?? [])
+      );
+      explorer.mutate({
+        targets: [folder.id],
+        type: CONSTANTS.SET_FOLDER_CONTENT,
+        payload: {
+          id: folder.id,
+          value: mapDataToCollection(newContent, folder.id),
+        },
+      });
+      content.current = mapDataToComponentsTree(newContent);
+    }
     explorer.mutate({
       targets: [id],
       type: CONSTANTS.SET_FOLDER_STATE,
-      payload: {
-        value: !isExpanded,
-        id,
-      },
+      payload,
     });
   };
 
@@ -98,7 +142,10 @@ function Accordion({ label, id, children }) {
         <AccordionLabel isExpanded={isExpanded} onToggle={handleToggle}>
           {label}
         </AccordionLabel>
-        <AccordionContent isExpanded={isExpanded}>{children}</AccordionContent>
+        {isLoading && isExpanded ? <Loader /> : null}
+        <AccordionContent isExpanded={isExpanded}>
+          {content.current || children}
+        </AccordionContent>
       </AccordionContainer>
     </div>
   );

@@ -4,7 +4,7 @@ import { useStore } from "hermes-io";
 import { getHighlights, getOpenFolders, getFolder } from "@/queries/queries";
 import {
   openFolder,
-  closeFolder,
+  closeFolders,
   setFileHightLight,
 } from "@/mutations/mutations";
 import reducer from "@/reducer/reducer";
@@ -14,31 +14,32 @@ export default function useHighlight(data) {
 
   const onClear = () => {
     const folders = query(getOpenFolders);
-    closeFolder(folders);
+    closeFolders(folders);
     setFileHightLight({
-      targets: query(getHighlights),
+      targets: query((store) => getHighlights(store).map(({ id }) => id)),
       value: "",
     });
   };
 
-  const handleopenFolder = (id) => {
+  const handleOpenFolder = (id) => {
     let nextParent = query((store) => getFolder(store, id));
-    openFolder(nextParent);
+    if (nextParent) openFolder(nextParent);
     while (nextParent) {
       const folder = query((store) => getFolder(store, nextParent.parent));
-      openFolder(folder);
+      if (folder) openFolder(folder);
       nextParent = folder?.parent ? folder : null;
     }
   };
 
   const onHightlight = (value = "") => {
-    const handleHighlightFile = (id) =>
+    const handleHighlightFile = (id) => {
       setFileHightLight({ targets: [id], id, value });
+    }
 
     findKeywords({
       data,
       value,
-      onHightlightFolder: handleopenFolder,
+      onHightlightFolder: handleOpenFolder,
       onHightlightFile: handleHighlightFile,
     });
   };

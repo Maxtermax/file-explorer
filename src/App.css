@@ -6,10 +6,16 @@
   position: absolute;
   top: 0px;
   left: 0px;
-  --hightlight: #d7e4f6;
+  --font-medium: 20px;
+  --hightlight: #dfdfdf;
+  --transparent-grey: #dfdfdf;
+  --light-grey: #f2f2f2;
   --transparent: transparent;
   --black: #1d1d11;
   --weight-400: 400;
   --weight-300: 300;
   --grey: silver;
+  --white: white; 
+  --transition-smooth-quick: 0.35;
+  --light-blue: #54aeff;
 }

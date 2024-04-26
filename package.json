@@ -10,8 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "hermes-io": "^2.4.49",
-    "i": "^0.3.7",
+    "@styled-icons/bootstrap": "^10.47.0",
+    "@styled-icons/boxicons-solid": "^10.47.0",
+    "hermes-io": "^2.6.50",
     "lodash": "^4.17.21",
     "npm": "^10.5.2",
     "prism-react-renderer": "^2.3.1",

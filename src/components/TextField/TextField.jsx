@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./style.css";
 
-const DELAY = 500;
+const DELAY = 250;
 
 function TextField({ onChange }) {
   const [value, setValue] = useState(null);

@@ -1,3 +1,5 @@
+import { CONSTANTS } from "@/CONSTANTS";
+
 export function findKeywords({
   data,
   value,
@@ -7,9 +9,9 @@ export function findKeywords({
   for (let i = 0; i < data.length; i++) {
     const item = data[i];
     const match = value && item.name.includes(value);
-    if (match) {
-      onHightlightFile(item.id);
+    if (match && item.type === CONSTANTS.DIRECTORY_TYPE.FILE) {
       if (item.parent) onHightlightFolder(item.parent);
+      onHightlightFile(item.id);
       continue;
     }
     const keyword = findKeywords({
@@ -18,6 +20,7 @@ export function findKeywords({
       onHightlightFile,
       onHightlightFolder,
     });
-    if (keyword) onHightlightFile(item.id);
+    if (keyword && item.type === CONSTANTS.DIRECTORY_TYPE.FILE)
+      onHightlightFile(item.id);
   }
 }

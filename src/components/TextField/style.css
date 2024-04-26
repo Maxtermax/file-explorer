@@ -1,10 +1,9 @@
 .textfield {
     height: 40px;
     border-radius: 10px;
-    background: whitesmoke;
+    background: var(--transparent-grey);
     border: none;
     padding: 8px;
     font-size: 16px;
-    margin-left: 10px;
-    margin-top: 20px;
+    width: 80%;
 }
