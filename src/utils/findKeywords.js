@@ -8,7 +8,7 @@ export function findKeywords({
 }) {
   for (let i = 0; i < data.length; i++) {
     const item = data[i];
-    const match = value && item.name.includes(value);
+    const match = value && item.name.toLowerCase().includes(value.toLowerCase());
     if (match && item.type === CONSTANTS.DIRECTORY_TYPE.FILE) {
       if (item.parent) onHightlightFolder(item.parent);
       onHightlightFile(item.id);

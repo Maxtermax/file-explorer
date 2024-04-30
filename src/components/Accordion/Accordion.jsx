@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { withNotify, useMutations } from "hermes-io";
-import { FolderOpen } from "@styled-icons/boxicons-solid/FolderOpen";
-import { Folder as FolderClose } from "@styled-icons/boxicons-solid/Folder";
+import { FolderOpen } from "@styled-icons/fa-regular/FolderOpen";
+import { Folder as FolderClose } from "@styled-icons/evaicons-solid/Folder";
 import { HighlightContext as context } from "@/contexts/HighlightContext";
 import { HighlightObserver as observer } from "@/observers/HighlightObserver";
 import Loader from "@/components/Loader/Loader";
@@ -16,17 +16,26 @@ import {
   mapDataToCollection,
 } from "@/utils/mappers";
 import useFetch from "@/hooks/useFetch";
+import useFlashClass from "@/hooks/useFlashClass";
 import "./style.css";
 
 function AccordionLabel({ children, onToggle, isExpanded }) {
+  const flashAnimation = useFlashClass();
   return (
-    <div className="accordion__label" onClick={onToggle} role="button">
-      <button className="accordion__label__button">
+    <div
+      className={"accordion__label " + flashAnimation}
+      onClick={onToggle}
+      role="button"
+    >
+      <button className={"accordion__label__button"}>
         {isExpanded ? (
-          <FolderOpen className="accordion__label__button__folder" width={20} />
+          <FolderOpen
+            className="accordion__label__button__folder flash-border"
+            width={20}
+          />
         ) : (
           <FolderClose
-            className="accordion__label__button__folder"
+            className="accordion__label__button__folder flash-border"
             width={20}
           />
         )}
@@ -37,7 +46,10 @@ function AccordionLabel({ children, onToggle, isExpanded }) {
 }
 
 function AccordionContainer({ children }) {
-  return <div className="accordion__container">{children}</div>;
+  const flashAnimation = useFlashClass();
+  return (
+    <div className={"accordion__container " + flashAnimation}>{children}</div>
+  );
 }
 
 export const AccordionItem = withNotify(
@@ -47,9 +59,9 @@ export const AccordionItem = withNotify(
       notify({ url });
     };
     return (
-      <li className="accordion__item">
+      <li className={"accordion__item "}>
         <button onClick={handleAnchorClick} className="accordion__item__anchor">
-          <span>{children}</span>
+          <span className="accordion__item__content">{children}</span>
         </button>
       </li>
     );
@@ -137,17 +149,15 @@ function Accordion({ label, id, children }) {
   };
 
   return (
-    <div>
-      <AccordionContainer>
-        <AccordionLabel isExpanded={isExpanded} onToggle={handleToggle}>
-          {label}
-        </AccordionLabel>
-        {isLoading && isExpanded ? <Loader /> : null}
-        <AccordionContent isExpanded={isExpanded}>
-          {content.current || children}
-        </AccordionContent>
-      </AccordionContainer>
-    </div>
+    <AccordionContainer>
+      <AccordionLabel isExpanded={isExpanded} onToggle={handleToggle}>
+        {label}
+      </AccordionLabel>
+      {isLoading && isExpanded ? <Loader /> : null}
+      <AccordionContent isExpanded={isExpanded}>
+        {content.current || children}
+      </AccordionContent>
+    </AccordionContainer>
   );
 }
 

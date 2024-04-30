@@ -1,3 +1,4 @@
+import { DocumentBulletList } from "@styled-icons/fluentui-system-regular/DocumentBulletList"
 import Accordion, { AccordionItem } from "@/components/Accordion/Accordion";
 import Highlight from "@/components/Highlight/Highlight";
 import { resolveTree, resolveType } from "./resolvers";
@@ -33,6 +34,7 @@ export function mapDataToComponentsTree(data = []) {
     if (type === CONSTANTS.DIRECTORY_TYPE.FILE) {
       return (
         <AccordionItem key={id} icon={icon} name={name} url={url} id={id}>
+          <DocumentBulletList size={25}/>
           <Highlight id={id} text={name} />
         </AccordionItem>
       );

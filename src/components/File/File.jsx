@@ -7,6 +7,7 @@ import { FileContext } from "@/contexts/FileContext";
 import { FileObserver } from "@/observers/FileObserver";
 import Loader from "@/components/Loader/Loader";
 import Empty from "@/components/Empty/Empty";
+import useFlashClass from "@/hooks/useFlashClass";
 import "./style.css";
 
 function Code({ code, language }) {
@@ -32,6 +33,7 @@ async function textParser(response) {
 }
 
 const File = () => {
+  const flashAnimation = useFlashClass();
   const { data, isLoading, error, refetch, abort } = useFetch({
     lazy: true,
     parser: textParser,
@@ -56,7 +58,7 @@ const File = () => {
   if (error.current) return <p>ERROR</p>;
 
   return (
-    <div className="container">
+    <div className={"container " + flashAnimation}>
       <Code code={data.current} language="jsx" />
     </div>
   );

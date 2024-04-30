@@ -1,9 +1,13 @@
+import useFlashClass from "@/hooks/useFlashClass";
 import "./style.css";
 
-const Loader = () => (
-  <div className="loader-container">
-    <span className="loader"></span>
-  </div>
-);
+const Loader = () => {
+  const flashAnimation = useFlashClass();
+  return (
+    <div className={"loader-container " + flashAnimation}>
+      <span className="loader"></span>
+    </div>
+  );
+};
 
 export default Loader;

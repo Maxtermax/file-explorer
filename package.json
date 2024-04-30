@@ -15,6 +15,11 @@
   "dependencies": {
     "@styled-icons/bootstrap": "^10.47.0",
     "@styled-icons/boxicons-solid": "^10.47.0",
+    "@styled-icons/evaicons-outline": "^10.46.0",
+    "@styled-icons/evaicons-solid": "^10.46.0",
+    "@styled-icons/fa-regular": "^10.47.0",
+    "@styled-icons/fluentui-system-regular": "^10.47.0",
+    "@styled-icons/heroicons-outline": "^10.47.0",
     "hermes-io": "^2.6.50",
     "lodash": "^4.17.21",
     "prism-react-renderer": "^2.3.1",
@@ -22,7 +27,8 @@
     "react-code-block": "^1.0.0",
     "react-dom": "^18.2.0",
     "react-router": "^6.22.3",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^6.22.3",
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",

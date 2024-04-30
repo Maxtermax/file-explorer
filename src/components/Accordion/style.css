@@ -18,6 +18,7 @@
 }
 
 .accordion__label {
+  max-width: 280px;
   display: flex;
   cursor: pointer;
   justify-content: flex-start;
@@ -53,11 +54,12 @@
   padding-right: 0px;
   flex-direction: column;
   gap: 10px;
+  transition: all 0.4s cubic-bezier(0.55, 0.11, 0.51, 0.94);
 }
 
 .accordion__item {
   background: transparent;
-  padding-left: 25px;
+  padding-left: 12px;
   cursor: pointer;
   list-style: none;
   display: flex;
@@ -74,4 +76,15 @@
   height: 0px;
   overflow: hidden;
   padding: 0px;
+  margin: 0px;
+}
+
+.accordion__item__content {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.accordion__item__content svg {
+  color: var(--grey);
 }
