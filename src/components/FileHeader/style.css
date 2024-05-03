@@ -1,0 +1,22 @@
+.file-header-container {
+  align-items: center;
+  background-color: var(--black);
+  color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  width: calc(100% - 326px);
+  height: 40px;
+  position: fixed;
+  left: 312px;
+}
+
+.file-header-name {
+  min-width: 70px;
+  margin-left: 20px;
+}
+
+.file-header-icons {
+  display: flex;
+  width: 90px;
+  gap: 20px;
+}

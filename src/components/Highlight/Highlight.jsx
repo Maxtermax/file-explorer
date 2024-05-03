@@ -26,17 +26,8 @@ function Highlight({ text, id }) {
   const hightlightRef = useRef("");
   const highlight = hightlightRef.current;
   useMutations({
-    noUpdate: true,
     events: [CONSTANTS.SET_FILE_STATE],
-    onChange: ({ chunk, target }, _resolver, setNoUpdate) => {
-      const shouldUpdate = id === target;
-      if (shouldUpdate) {
-        hightlightRef.current = chunk;
-        setNoUpdate(false);
-        return;
-      }
-      setNoUpdate(false);
-    },
+    onChange: ({ chunk }) => (hightlightRef.current = chunk),
     store: explorer,
     id,
   });

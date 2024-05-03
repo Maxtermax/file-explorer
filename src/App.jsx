@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import TextField from "@/components/TextField/TextField";
 import Overlay from "@/components/Overlay/Overlay";
 import File from "@/components/File/File";
+import FileHeader from "@/components/FileHeader/FileHeader";
 import Loader from "@/components/Loader/Loader";
 import useHighlight from "@/hooks/useHighlight";
 import useFetch from "@/hooks/useFetch";
@@ -42,6 +43,7 @@ const Container = ({ data }) => {
         </Content>
       </SideBar>
       <Code>
+        <FileHeader />
         <File />
       </Code>
     </Shell>

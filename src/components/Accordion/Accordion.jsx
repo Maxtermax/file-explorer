@@ -53,10 +53,10 @@ function AccordionContainer({ children }) {
 }
 
 export const AccordionItem = withNotify(
-  ({ children, notify, url }) => {
+  ({ children, notify, name, url }) => {
     const handleAnchorClick = (e) => {
       e.preventDefault();
-      notify({ url });
+      notify({ url, name });
     };
     return (
       <li className={"accordion__item "}>
@@ -104,13 +104,8 @@ function Accordion({ label, id, children }) {
   });
 
   useMutations({
-    noUpdate: true,
     events: [CONSTANTS.SET_FOLDER_STATE],
-    onChange: ({ isExpanded, target }, _resolver, setNoUpdate) => {
-      const hasNotUpdate = id !== target;
-      if (!hasNotUpdate) isExpandedRef.current = isExpanded;
-      setNoUpdate(hasNotUpdate);
-    },
+    onChange: ({ isExpanded }) => (isExpandedRef.current = isExpanded),
     store: explorer,
     id,
   });
