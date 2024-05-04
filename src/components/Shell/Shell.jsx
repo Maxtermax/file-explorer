@@ -1,3 +1,4 @@
+import { CONSTANTS } from '../../CONSTANTS';
 import "./style.css";
 
 export const Header = ({ children }) => {
@@ -9,11 +10,11 @@ export const Content = ({ children }) => {
 };
 
 export const Shell = ({ children }) => {
-  return <div className="shell">{children}</div>;
+  return <div className={"shell " + (CONSTANTS.STANDALONE ? " col-1" : "")}>{children}</div>;
 };
 
 export const SideBar = ({ children }) => {
-  return <div className="sidebar">{children}</div>;
+  return <div className={"sidebar "+ (CONSTANTS.STANDALONE ? " hide" : "") }>{children}</div>;
 };
 
 export const Code = ({ children }) => {

@@ -6,6 +6,7 @@ import { FileObserver } from "@/observers/FileObserver";
 import { GithubOutline } from "@styled-icons/evaicons-outline/GithubOutline";
 import { ExternalLinkOutline } from "@styled-icons/evaicons-outline/ExternalLinkOutline";
 import "./style.css";
+import { CONSTANTS } from '../../CONSTANTS';
 
 const FileHeader = () => {
   const flashAnimation = useFlashClass();
@@ -19,8 +20,10 @@ const FileHeader = () => {
     listener: handleFileNotification,
   });
 
+  const position = CONSTANTS.STANDALONE ? " no-left" : ""
+
   return (
-    <div className={"file-header-container " + flashAnimation}>
+    <div className={"file-header-container " + flashAnimation + position}>
       <span className="file-header-name">{name}</span>
       <div className="file-header-icons">
         <a

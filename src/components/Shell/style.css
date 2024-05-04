@@ -10,6 +10,14 @@
   font-family: var(--font-family);
 }
 
+.col-1 {
+  grid-template-columns: 1fr !important;
+}
+
+.hide {
+  display: none !important;
+}
+
 .content {
   display: flex;
   margin-top: 90px;
