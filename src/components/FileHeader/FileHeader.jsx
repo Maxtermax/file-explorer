@@ -37,7 +37,7 @@ const FileHeader = () => {
         <a
           title="Open in a new tab"
           target="_blank"
-          href="https://file-explorer-mauve.vercel.app/"
+          href={window.location.href}
           rel="noreferrer"
         >
           <ExternalLinkOutline size={20} />
