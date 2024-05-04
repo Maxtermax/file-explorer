@@ -56,7 +56,7 @@ export default function App() {
     data: result,
     error,
   } = useFetch({
-    url: `https://api.github.com/repos/${CONSTANTS.REPO_OWNER}/${CONSTANTS.REPO_NAME}/git/trees/master`,
+    url: CONSTANTS.RESOURCE_URL || `https://api.github.com/repos/${CONSTANTS.REPO_OWNER}/${CONSTANTS.REPO_NAME}/git/trees/master`,
     parser: jsonParser,
   });
   const data = useMemo(

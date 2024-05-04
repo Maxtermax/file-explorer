@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { withNotify, useMutations } from "hermes-io";
 import { FolderOpen } from "@styled-icons/fa-regular/FolderOpen";
 import { Folder as FolderClose } from "@styled-icons/evaicons-solid/Folder";
@@ -54,6 +54,12 @@ function AccordionContainer({ children }) {
 
 export const AccordionItem = withNotify(
   ({ children, notify, name, url }) => {
+    useEffect(() => {
+      if (name === CONSTANTS.TARGET) {
+        setTimeout(() => notify({ url, name }), 350);
+      }
+    }, []);
+
     const handleAnchorClick = (e) => {
       e.preventDefault();
       notify({ url, name });

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useObserver } from "hermes-io";
 import useFlashClass from "@/hooks/useFlashClass";
 import { FileContext } from "@/contexts/FileContext";
@@ -5,7 +6,6 @@ import { FileObserver } from "@/observers/FileObserver";
 import { GithubOutline } from "@styled-icons/evaicons-outline/GithubOutline";
 import { ExternalLinkOutline } from "@styled-icons/evaicons-outline/ExternalLinkOutline";
 import "./style.css";
-import { useState } from "react";
 
 const FileHeader = () => {
   const flashAnimation = useFlashClass();

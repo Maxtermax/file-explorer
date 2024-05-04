@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useObserver } from "hermes-io";
 import { themes } from "prism-react-renderer";
 import { CodeBlock } from "react-code-block";
@@ -9,17 +9,29 @@ import Loader from "@/components/Loader/Loader";
 import Empty from "@/components/Empty/Empty";
 import useFlashClass from "@/hooks/useFlashClass";
 import "./style.css";
+import { CONSTANTS } from '../../CONSTANTS';
 
-function Code({ code, language }) {
+function Code({ code, language, lines = []}) {
   return (
-    <CodeBlock code={code} language={language} theme={themes.github}>
+    <CodeBlock
+      lines={lines}
+      code={code}
+      language={language}
+      theme={themes.github}
+    >
       <CodeBlock.Code className="bg-white p-6 rounded-lg shadow">
-        <div className="table-row">
-          <CodeBlock.LineNumber className="line-number table-cell pr-4 text-xs text-gray-400 text-right select-none" />
-          <CodeBlock.LineContent className="table-cell">
-            <CodeBlock.Token />
-          </CodeBlock.LineContent>
-        </div>
+        {({ isLineHighlighted }) => (
+          <div
+            className={`table-row ${
+              isLineHighlighted ? "line-hightlight " : ""
+            }`}
+          >
+            <CodeBlock.LineNumber className="line-number table-cell pr-4 text-xs text-gray-400 text-right select-none" />
+            <CodeBlock.LineContent className="table-cell">
+              <CodeBlock.Token />
+            </CodeBlock.LineContent>
+          </div>
+        )}
       </CodeBlock.Code>
     </CodeBlock>
   );
@@ -34,6 +46,7 @@ async function textParser(response) {
 
 const File = () => {
   const flashAnimation = useFlashClass();
+  const name = useRef('');
   const { data, isLoading, error, refetch, abort } = useFetch({
     lazy: true,
     parser: textParser,
@@ -42,6 +55,7 @@ const File = () => {
   const handleFileNotification = ({ value }) => {
     isEmpty.current = false;
     abort();
+    name.current = value.name;
     refetch.current(value.url);
   };
 
@@ -51,6 +65,8 @@ const File = () => {
     listener: handleFileNotification,
   });
 
+  const lines = name.current === CONSTANTS.TARGET && CONSTANTS.LINES ? [CONSTANTS.LINES] : [];
+
   if (isEmpty.current && data.current === null) return <Empty />;
   if (isLoading) {
     return <Loader />;
@@ -59,7 +75,7 @@ const File = () => {
 
   return (
     <div className={"container " + flashAnimation}>
-      <Code code={data.current} language="jsx" />
+      <Code lines={lines} code={data.current} language="jsx" />
     </div>
   );
 };

@@ -12,3 +12,6 @@
 .line-number {
   padding-left: 13px;
 }
+.line-hightlight {
+  background: var(--hightlight);
+}
